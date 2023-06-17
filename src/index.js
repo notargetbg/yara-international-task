@@ -8,7 +8,7 @@ import './index.scss';
 
 import { Router } from './Core/Router';
 
-ReactDOM.createRoot(document.getElementById("root")).render(
+ReactDOM.createRoot(document.getElementById('root')).render(
 	<React.StrictMode>
 		<BrowserRouter>
 			<Router />
