@@ -8,7 +8,7 @@ const app: Express = express();
 const port = process.env.PORT;
 
 app.get('/', (req: Request, res: Response) => {
-  	res.send('Express + TypeScript Server');
+	res.send('Express + TypeScript Server');
 });
 
 
@@ -18,7 +18,7 @@ app.get('/test', async (req, res) => {
 		const { data } = await axios.get('https://app.ticketmaster.com/discovery/v2/events.json?apikey=lUTNdbyC7jORpAWwT1wxSMeBEXm4fVms', {
 			responseType: 'stream'
 		});
-	
+
 		data.pipe(res);
 
 		// res.send(`Running 🏃 ${apiResponseData}`);
@@ -29,5 +29,5 @@ app.get('/test', async (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
+	console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
 });

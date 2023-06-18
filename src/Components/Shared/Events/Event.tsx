@@ -1,4 +1,4 @@
-import { EventData } from '../../../Core/Types';
+import { EventData } from '../../../Core/Types/Types';
 import EventImage from './EventImage';
 import './Event.scss';
 

@@ -12,7 +12,7 @@ function HomePage() {
 	const [modalShow, setModalShow] = useState(false);
 
 	return (
-		<div className='homepage'>      
+		<div className='homepage'>
 			<header className='homepage-header'>
 				<img src={logo} className='homepage-logo' alt='logo' />
 				{/* <p>
