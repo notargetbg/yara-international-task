@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useReducer } from 'react';
-import { EventsResponse, SearchAction } from '../Types/Types';
+import { EventsResponse, SearchActionTypes } from '../Types/Types';
 
 export interface EventsState extends EventsResponse {
     searchText: string;
@@ -7,8 +7,8 @@ export interface EventsState extends EventsResponse {
 }
 
 type EventsAction =
-    { type: SearchAction.Added, records: EventsResponse, searchText: string }
-    | { type: SearchAction.New, records: EventsResponse, searchText: string };
+    { type: SearchActionTypes.Added, records: EventsResponse, searchText: string }
+    | { type: SearchActionTypes.New, records: EventsResponse, searchText: string };
 
 const initialSearchText = {
     searchText: '',
@@ -16,12 +16,6 @@ const initialSearchText = {
 
 const initialEvents: EventsResponse = {
     data: [],
-    included: [],
-    meta: {
-        total: 0,
-        start_position: 0,
-        stop_position: 0
-    },
 };
 
 const initialState = {
@@ -53,22 +47,25 @@ export function useEvents() {
 }
 
 function eventsReducer(state: EventsResponse, action: EventsAction) {
-    switch (action.type) {
-        case SearchAction.Added: {
-            const data = action.records.data || [];
-            const included = action.records.included || [];
 
-            return {
-                data: [...state.data, ...data],
-                included: [...state.included, ...included],
-                meta: action.records.meta,
-                searchText: action.searchText
-            };
-        }
-        case SearchAction.New: {
+    console.log('going in', action);
+
+    switch (action.type) {
+        // case SearchActionTypes.Added: {
+        //     const data = action.records.data || [];
+        //     const included = action.records.included || [];
+
+        //     return {
+        //         data: [...state.data, ...data],
+        //         included: [...state.included, ...included],
+        //         meta: action.records.meta,
+        //         searchText: action.searchText
+        //     };
+        // }
+        case SearchActionTypes.New: {
             return {
                 ...state,
-                ...action.records,
+                data: action.data,
                 searchText: action.searchText
             };
         }

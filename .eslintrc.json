@@ -1,7 +1,9 @@
 {
-	"plugins": ["@typescript-eslint"],
+	"plugins": [
+		"@typescript-eslint"
+	],
 	"extends": [
-	  "plugin:@typescript-eslint/recommended"
+		"plugin:@typescript-eslint/recommended"
 	],
 	"parser": "@typescript-eslint/parser",
 	"parserOptions": {
@@ -12,10 +14,19 @@
 		"sourceType": "module"
 	},
 	"rules": {
-	  "@typescript-eslint/no-unused-vars": "error",
-	  "@typescript-eslint/no-explicit-any": "error",
-	  "quotes": [2, "single", { "avoidEscape": true }],
-	  "jsx-quotes": [2, "prefer-single"],
-	  "semi": "error"
+		"@typescript-eslint/no-unused-vars": "error",
+		"@typescript-eslint/no-explicit-any": "warning",
+		"quotes": [
+			2,
+			"single",
+			{
+				"avoidEscape": true
+			}
+		],
+		"jsx-quotes": [
+			2,
+			"prefer-single"
+		],
+		"semi": "error"
 	}
 }

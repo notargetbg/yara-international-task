@@ -15,19 +15,39 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const axios_1 = __importDefault(require("axios"));
 const dotenv_1 = __importDefault(require("dotenv"));
+const cors_1 = __importDefault(require("cors"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT;
+const pageSize = 30;
+app.use((0, cors_1.default)());
 app.get('/', (req, res) => {
     res.send('Express + TypeScript Server');
 });
-app.get('/test', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+// move this to router
+app.get('/events', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(req.query);
     try {
-        const { data } = yield axios_1.default.get('https://app.ticketmaster.com/discovery/v2/events.json?apikey=lUTNdbyC7jORpAWwT1wxSMeBEXm4fVms', {
-            responseType: 'stream'
+        const { data } = yield axios_1.default.get('https://app.ticketmaster.com/discovery/v2/events.json', {
+            responseType: 'stream',
+            params: Object.assign({ apikey: process.env.API_KEY, size: pageSize }, req.query)
         });
         data.pipe(res);
-        // res.send(`Running 🏃 ${apiResponseData}`);
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).send('Something went wrong');
+    }
+}));
+app.get('/events/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { data } = yield axios_1.default.get(`https://app.ticketmaster.com/discovery/v2/events/${req.params.id}`, {
+            responseType: 'stream',
+            params: {
+                apikey: process.env.API_KEY,
+            }
+        });
+        data.pipe(res);
     }
     catch (err) {
         console.log(err);

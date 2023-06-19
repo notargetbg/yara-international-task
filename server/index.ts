@@ -1,27 +1,52 @@
 import express, { Express, Request, Response } from 'express';
 import axios from 'axios';
 import dotenv from 'dotenv';
+import cors from 'cors';
 
 dotenv.config();
 
 const app: Express = express();
 const port = process.env.PORT;
+const pageSize = 30;
+
+app.use(cors());
 
 app.get('/', (req: Request, res: Response) => {
 	res.send('Express + TypeScript Server');
 });
 
+// move this to router
+app.get('/events', async (req, res) => {
 
+	console.log(req.query);
 
-app.get('/test', async (req, res) => {
 	try {
-		const { data } = await axios.get('https://app.ticketmaster.com/discovery/v2/events.json?apikey=lUTNdbyC7jORpAWwT1wxSMeBEXm4fVms', {
-			responseType: 'stream'
+		const { data } = await axios.get('https://app.ticketmaster.com/discovery/v2/events.json', {
+			responseType: 'stream',
+			params: {
+				apikey: process.env.API_KEY,
+				size: pageSize,
+				...req.query
+			}
 		});
 
 		data.pipe(res);
+	} catch (err) {
+		console.log(err);
+		res.status(500).send('Something went wrong');
+	}
+});
 
-		// res.send(`Running 🏃 ${apiResponseData}`);
+app.get('/events/:id', async (req, res) => {
+	try {
+		const { data } = await axios.get(`https://app.ticketmaster.com/discovery/v2/events/${req.params.id}`, {
+			responseType: 'stream',
+			params: {
+				apikey: process.env.API_KEY,
+			}
+		});
+
+		data.pipe(res);
 	} catch (err) {
 		console.log(err);
 		res.status(500).send('Something went wrong');

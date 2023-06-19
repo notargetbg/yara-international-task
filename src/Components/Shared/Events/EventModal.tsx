@@ -1,35 +1,44 @@
 import { Modal, Button } from 'react-bootstrap';
 
 type Props = {
-	show: boolean,
+	modalData: {
+		name: string
+	} | null,
 	onHide?: () => void
 };
 
 export default function EventModal(props: Props) {
+	const { modalData } = props;
+
+	if (!modalData) return null;
+
+	const { name, _embedded, priceRanges } = modalData;
+	const eventLocation = _embedded?.venues[0];
+
+	console.log(modalData);
+
 	return (
-	  <Modal
-		{...props}
-		size='lg'
-		aria-labelledby='contained-modal-title-vcenter'
-		centered
-	  >
-		<Modal.Header closeButton>
-		  <Modal.Title id='contained-modal-title-vcenter'>
-			Event details
-		  </Modal.Title>
-		</Modal.Header>
-		<Modal.Body>
-		  <h4>Event title</h4>
-		  <p>
-			Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-			dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-			consectetur ac, vestibulum at eros.
-		  </p>
-		</Modal.Body>
-		<Modal.Footer>
-		  <Button onClick={props.onHide}>Close</Button>
-		</Modal.Footer>
-	  </Modal>
+		<Modal
+			show={!!modalData}
+			size='lg'
+			aria-labelledby='contained-modal-title-vcenter'
+			centered
+		>
+			<Modal.Header>
+				<Modal.Title id='contained-modal-title-vcenter'>
+					{name}
+				</Modal.Title>
+			</Modal.Header>
+			<Modal.Body>
+				<h6>{eventLocation.name} - {eventLocation.city.name}, {eventLocation.country.name}</h6>
+				{priceRanges.map(priceRange => (
+					<p>{priceRange.type}: {priceRange.min} - {priceRange.max} {priceRange.currency}</p>
+				))}
+			</Modal.Body>
+			<Modal.Footer>
+				<Button primary onClick={() => 'add to wishlisht'}>Add to wishlisht</Button>
+				<Button onClick={props.onHide}>Close</Button>
+			</Modal.Footer>
+		</Modal>
 	);
 }
-  

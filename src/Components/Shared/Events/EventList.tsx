@@ -1,22 +1,21 @@
 import { Container, Row, Col } from 'react-bootstrap';
 import Event from './Event';
+import { useEvents } from '../../../Core/Contexts/EventsContext';
 
 type Props = {
-	onShowModal: () => void
+	onShowModal: (id: string) => void
 }
 
 export default function EventList({ onShowModal }: Props) {
-
-	const testData = Array.from({length: 10}).map((x, i) => i + 1);
-	console.log(testData);
+	const events = useEvents();
 
 	return (
 		<Container>
-			<h3>Latest events in <span className='hightlight'>Sofia</span></h3>
+			<h3>Latest music events in <span className='hightlight'>Munich</span></h3>
 			<br />
 			<Row>
-				{testData.map(eventData => (
-					<Col key={`event-${eventData}`} className='event' xs={12} sm={6} md={3}>
+				{events?.data?.map(eventData => (
+					<Col key={`event-${eventData.id}`} className='event' xs={12} sm={6} md={3}>
 						<Event eventData={eventData} onShowModal={onShowModal} />
 					</Col>
 				))}

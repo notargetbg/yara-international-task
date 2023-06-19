@@ -3,25 +3,30 @@ import EventImage from './EventImage';
 import './Event.scss';
 
 type Props = {
-	eventData?: EventData | number, // fix this
-	onShowModal: () => void
+	eventData: EventData,
+	onShowModal: (id: string) => void
 }
 
-export default function Event({ eventData, onShowModal }: Props) {
+const imageRatio = '16_9';
 
-	console.log(eventData);
+export default function Event({ eventData, onShowModal }: Props) {
+	const { name, dates, images, id } = eventData;
+	const { localTime, localDate } = dates.start;
+	const image = images.find(x => x.ratio === imageRatio && x.width > 250);
 
 	return (
 		<>
 			{/* <EventActions /> */}
-			<h4>Event name</h4>
-			<EventImage />
-			<p className='h5 short-description'>
+			{/* add min height or similar */}
+			<h4>{name}</h4>
+			<EventImage image={image?.url} />
+			<strong>{localDate}, {localTime.substring(0, localTime.length - 3)}</strong>
+			{/* <p className='h5 short-description'>
 				<small>
 					Explicabo sit placeat quidem ut error quasi sapiente voluptatum soluta aperiam! Pariatur ipsum architecto quo cumque eum asperiores magni iure possimus eligendi?
 				</small>
-			</p>
-			<small className='view-details' onClick={onShowModal}>{'view details >'}</small>
+			</p> */}
+			<small className='view-details' onClick={() => onShowModal(id)}>{'view details >'}</small>
 		</>
 	);
 }
