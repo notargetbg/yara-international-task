@@ -76,17 +76,19 @@ function HomePage() {
 
 	return (
 		<div className='homepage'>
-			<header className='homepage-header'>
-				<Container className='mt-5'>
-					<Row>
-						<Col md={{ span: 6, offset: 3 }}>
-							<Search handleSearch={(e: React.KeyboardEvent) => handleSearchEvent(e)} />
-						</Col>
-					</Row>
-				</Container>
-				<EventList isLoading={false} onShowModal={(id) => showEventDetails(id)} />
-				<EventModal modalData={modalData} addToWishlist={(wishlistData) => handleAddToWishlist(wishlistData)} onHide={() => setModalData(null)} />
-			</header>
+			<Container className='mt-5'>
+				<Row>
+					<Col md={{ span: 6, offset: 3 }}>
+						<Search handleSearch={(e: React.KeyboardEvent) => handleSearchEvent(e)} />
+					</Col>
+				</Row>
+			</Container>
+			<EventList isLoading={false} onShowModal={(id) => showEventDetails(id)} />
+			<EventModal
+				modalData={modalData}
+				addToWishlist={(wishlistData) => handleAddToWishlist(wishlistData)}
+				onHide={() => setModalData(null)}
+			/>
 		</div>
 	);
 }

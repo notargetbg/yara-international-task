@@ -10,6 +10,7 @@ export interface EventsContext {
 
 type EventsAction =
     { type: EventActionTypes.AddedToWishlist, wishlistData: WishlistData }
+    | { type: EventActionTypes.RemoveFromWishlist, id: string }
     | { type: EventActionTypes.New, data: EventData[], searchText: string };
 
 const initialSearchText = {
@@ -19,7 +20,7 @@ const initialSearchText = {
 const initialEvents: EventsState = {
     searchText: '',
     data: [],
-    wishlist: []
+    wishlistData: []
 };
 
 const initialState = {
@@ -57,7 +58,13 @@ function eventsReducer(state: EventsState, action: EventsAction): EventsState {
 
             return {
                 ...state,
-                wishlist: [...state.wishlist, wishlistData],
+                wishlistData: [...state.wishlistData, wishlistData],
+            };
+        }
+        case EventActionTypes.RemoveFromWishlist: {
+            return {
+                ...state,
+                wishlistData: state.wishlistData.filter(item => item.id !== action.id),
             };
         }
         case EventActionTypes.New: {

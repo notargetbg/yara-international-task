@@ -23,6 +23,8 @@ type ModalData = {
 	};
 }
 
+const PRICE_RANGE_NAME = 'standard';
+
 export default function EventModal(props: Props): React.JSX.Element | null {
 	const [ticketsCount, setTicketsCount] = useState(0);
 	const { modalData, addToWishlist } = props;
@@ -43,17 +45,24 @@ export default function EventModal(props: Props): React.JSX.Element | null {
 			ticketsCount
 		};
 
+		// if id is present in wishlist do nothing
+
 		addToWishlist(wishlistData);
+		closeModal();
 	};
 
 	const handleSetTicketsCount = (e: BaseSyntheticEvent) => {
 		setTicketsCount(Number(e.target.value));
 	};
 
-	const handleClose = () => {
+	const closeModal = () => {
 		setTicketsCount(0);
 		props.onHide();
 	};
+
+	const priceRange = priceRanges?.find(range => {
+		return range.type?.toLowerCase() === PRICE_RANGE_NAME;
+	});
 
 	return (
 		<Modal
@@ -73,26 +82,26 @@ export default function EventModal(props: Props): React.JSX.Element | null {
 					<Image className='event-seatmap mb-3' src={seatmap.staticUrl} />
 				)}
 				<h5>Ticket options:</h5>
-				{!priceRanges && (
+				{(!priceRanges || !priceRange) && (
 					<p>No tickets available</p>
 				)}
-				{priceRanges?.map(priceRange => (
+				{priceRange && (
 					<Form.Group as={Row} className='mt-4' controlId='numberOfTickets' key={priceRange.type}>
 						<Form.Label column sm='9' className='price-label'>
 							<span className='fw-bold'>{priceRange.type}: </span>{priceRange.max} {priceRange.currency}
 						</Form.Label>
 						<Col sm='3'>
-							{priceRange.type.toLowerCase().includes('fees') && (
-								<Form.Control type='number' onChange={handleSetTicketsCount} defaultValue='0' />
+							{priceRange.type.toLowerCase() && (
+								<Form.Control type='number' onChange={handleSetTicketsCount} />
 							)}
 						</Col>
 					</Form.Group>
-				))}
+				)}
 			</Modal.Body>
 			<Modal.Footer>
 				{/* disable whem no tickets are selected */}
 				<Button disabled={!priceRanges || !ticketsCount} onClick={() => handleAddToWishlist()}>Add to wishlisht</Button>
-				<Button variant='danger' onClick={() => handleClose()}>Close</Button>
+				<Button variant='danger' onClick={() => closeModal()}>Close</Button>
 			</Modal.Footer>
 		</Modal>
 	);

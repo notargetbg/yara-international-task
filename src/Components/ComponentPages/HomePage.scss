@@ -1,28 +1,12 @@
 .homepage {
 	text-align: center;
-}
-
-.homepage-logo {
-	height: 40vmin;
-	max-height: 130px;
-	pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-	.homepage-logo {
-		animation: logo-spin infinite 20s linear;
-	}
-}
-
-.homepage-header {
 	background-color: #282c34;
 	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	font-size: calc(10px + 2vmin);
-	color: white;
+	color: #FFFFFF;
 }
 
 .homepage-link {
@@ -35,13 +19,4 @@
 	display: inline-block;
 	padding: 2px 6px;
 	border-radius: 3px;
-}
-
-@keyframes logo-spin {
-	from {
-		transform: rotate(0deg);
-	}
-	to {
-		transform: rotate(360deg);
-	}
 }

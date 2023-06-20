@@ -13,6 +13,7 @@ export type WishlistData = {
 	name: string;
 	date: string;
 	venueName: string;
+	ticketsCount: number;
 }
 
 export type Venue = {
@@ -44,12 +45,13 @@ export type EventsResponse = {
 export type EventsState = {
 	searchText: string;
 	data: EventData[];
-	wishlist: WishlistData[];
+	wishlistData: WishlistData[];
 }
 
 export enum EventActionTypes {
-	AddedToWishlist,
-	New
+	AddedToWishlist = 'AddedToWishlist',
+	RemoveFromWishlist = 'RemoveFromWishlist',
+	New = 'New'
 }
 
 export type SearchParams = {

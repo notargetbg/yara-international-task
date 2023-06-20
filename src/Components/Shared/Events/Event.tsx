@@ -13,7 +13,7 @@ const imageRatio = '16_9';
 
 export default function Event({ eventData, onShowModal }: Props): React.JSX.Element {
 	const { name, dates, images, id } = eventData;
-	const image = images.find(x => x.ratio === imageRatio && x.width > 250);
+	const image = images.find(image => image.ratio === imageRatio && image.width > 250);
 
 	return (
 		<>
