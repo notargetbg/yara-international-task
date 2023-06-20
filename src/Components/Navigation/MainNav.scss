@@ -1,0 +1,6 @@
+.navbar {
+    .nav-link.active {
+        border-bottom: 2px solid var(--bs-nav-link-color);
+        font-weight: 700;
+    }
+}

@@ -81,25 +81,24 @@ export default function EventModal(props: Props): React.JSX.Element | null {
 				{seatmap?.staticUrl && (
 					<Image className='event-seatmap mb-3' src={seatmap.staticUrl} />
 				)}
-				<h5>Ticket options:</h5>
+				<h5 className='mb-0'>Select tickets:</h5>
 				{(!priceRanges || !priceRange) && (
 					<p>No tickets available</p>
 				)}
 				{priceRange && (
-					<Form.Group as={Row} className='mt-4' controlId='numberOfTickets' key={priceRange.type}>
+					<Form.Group as={Row} controlId='numberOfTickets' key={priceRange.type}>
 						<Form.Label column sm='9' className='price-label'>
 							<span className='fw-bold'>{priceRange.type}: </span>{priceRange.max} {priceRange.currency}
 						</Form.Label>
 						<Col sm='3'>
 							{priceRange.type.toLowerCase() && (
-								<Form.Control type='number' onChange={handleSetTicketsCount} />
+								<Form.Control min={0} max={10} type='number' onChange={handleSetTicketsCount} />
 							)}
 						</Col>
 					</Form.Group>
 				)}
 			</Modal.Body>
 			<Modal.Footer>
-				{/* disable whem no tickets are selected */}
 				<Button disabled={!priceRanges || !ticketsCount} onClick={() => handleAddToWishlist()}>Add to wishlisht</Button>
 				<Button variant='danger' onClick={() => closeModal()}>Close</Button>
 			</Modal.Footer>

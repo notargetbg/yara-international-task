@@ -1,40 +1,40 @@
 import { NavLink } from 'react-router-dom';
+import { Navbar, Container, Nav } from 'react-bootstrap';
+import './MainNav.scss';
 
 export const MainNav = (): React.JSX.Element => {
     return (
-        <nav className='navbar navbar-expand-lg navbar-light bg-light'>
-            <div className='container float-end'>
-                <NavLink className='navbar-brand' to='/'>TicketApp</NavLink>
-                <div className='collapse navbar-collapse' id='navbarSupportedContent'>
-                    <ul className='navbar-nav ms-auto mb-2 mb-lg-0'>
-                        <li className='nav-item'>
-                            <NavLink
-                                to='/add-new'
-                                className={'nav-link'}
-                            >
-                                + New Event
-                            </NavLink>
-                        </li>
-                        <li className='nav-item'>
-                            {/* <a className="nav-link active" aria-current="page" href="#">Home</a> */}
-                            <NavLink
-                                to='/wishlist'
-                                className={'nav-link'}
-                            >
-                                Wishlist
-                            </NavLink>
-                        </li>
-                        <li className='nav-item'>
-                            <NavLink
-                                to='/my-events'
-                                className={'nav-link'}
-                            >
-                                My events
-                            </NavLink>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        <Navbar expand='lg' className='bg-body-tertiary'>
+            <Container>
+                <Navbar.Brand>
+                    <NavLink className='navbar-brand' to='/'>TicketApp</NavLink>
+                </Navbar.Brand>
+                <Navbar.Toggle aria-controls='main-navigation' />
+                <Navbar.Collapse id='main-navigation'>
+                    <Nav className='ms-auto'>
+                        <NavLink
+                            to='/add-new'
+                            className={'nav-link'}
+                        >
+                            Add new
+                        </NavLink>
+                        <NavLink
+                            to='/my-events'
+                            className={'nav-link'}
+                        >
+                            My events
+                        </NavLink>
+                        <NavLink
+                            to='/wishlist'
+                            className={'nav-link'}
+                        >
+                            Wishlist
+                        </NavLink>
+                    </Nav>
+                </Navbar.Collapse>
+            </Container>
+        </Navbar>
+
+
     );
 };

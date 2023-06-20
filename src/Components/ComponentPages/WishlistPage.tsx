@@ -17,7 +17,7 @@ function WishlistPage() {
     };
 
     const exportToPDF = () => {
-        const element = document.querySelector('.wishlist');
+        const element = document.getElementById('content-to-export');
         html2pdf().from(element).set(exportOptions).save();
     };
 
@@ -41,7 +41,7 @@ function WishlistPage() {
                         </Button>
                     </Col>
                 </Row>
-                <Row>
+                <Row id='content-to-export'>
                     {wishlistData?.map(wishlistItem => (
                         <Card key={wishlistItem.id} className='wishlist-item'>
                             <Card.Body>
