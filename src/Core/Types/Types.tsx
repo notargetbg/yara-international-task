@@ -1,13 +1,33 @@
 export type EventData = {
+	id: string;
 	name: string;
 	dates: {
-		start: {
-			localDate: string;
-			localTime: string;
-		}
+		start: EventStart;
 	};
 	images: EventImage[];
+	venues: Venue[];
+}
+
+export type WishlistData = {
 	id: string;
+	name: string;
+	date: string;
+	venueName: string;
+}
+
+export type Venue = {
+	name: string;
+	city: {
+		name: string;
+	};
+	country: {
+		name: string;
+	};
+}
+
+export type EventStart = {
+	localDate: string;
+	localTime: string;
 }
 
 export type EventImage = {
@@ -21,24 +41,26 @@ export type EventsResponse = {
 	data: EventData[];
 }
 
-export type EventDetailsResponse = {
-	foo: string
+export type EventsState = {
+	searchText: string;
+	data: EventData[];
+	wishlist: WishlistData[];
 }
 
-export type SearchAction = {
-	New: string;
-	Added: string;
-}
-
-export enum SearchActionTypes {
-	Added = 'Added',
-	New = 'New'
+export enum EventActionTypes {
+	AddedToWishlist,
+	New
 }
 
 export type SearchParams = {
-	searchText: string;
+	searchText?: string;
+	city?: string;
+	classificationName?: string;
 }
 
-export enum Params {
-	keyword
+export type PriceRange = {
+	min: number;
+	max: number;
+	currency: string;
+	type: string;
 }

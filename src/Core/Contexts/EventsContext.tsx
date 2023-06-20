@@ -1,21 +1,25 @@
 import React, { createContext, useContext, useReducer } from 'react';
-import { EventsResponse, SearchActionTypes } from '../Types/Types';
+import { EventActionTypes, EventData, EventsState, WishlistData } from '../Types/Types';
 
-export interface EventsState extends EventsResponse {
+export interface EventsContext {
+    data: EventData[];
+    wishlistData?: WishlistData[];
     searchText: string;
     dispatch?: React.Dispatch<EventsAction>;
 }
 
 type EventsAction =
-    { type: SearchActionTypes.Added, records: EventsResponse, searchText: string }
-    | { type: SearchActionTypes.New, records: EventsResponse, searchText: string };
+    { type: EventActionTypes.AddedToWishlist, wishlistData: WishlistData }
+    | { type: EventActionTypes.New, data: EventData[], searchText: string };
 
 const initialSearchText = {
     searchText: '',
 };
 
-const initialEvents: EventsResponse = {
+const initialEvents: EventsState = {
+    searchText: '',
     data: [],
+    wishlist: []
 };
 
 const initialState = {
@@ -23,15 +27,14 @@ const initialState = {
     ...initialSearchText
 };
 
-export const EventsContext = createContext<EventsState>(initialState);
+export const EventsContext = createContext<EventsContext>(initialState);
 
-export function EventsProvider({ children }: { children: React.ReactNode }) {
+export function EventsProvider({ children }: { children: React.ReactNode }): React.JSX.Element {
     const [events, dispatch] = useReducer(
         eventsReducer,
         initialState
     );
 
-    // set the provider value and add dispatch in order to use it easily across the components
     return (
         <EventsContext.Provider value={{
             ...events,
@@ -42,27 +45,22 @@ export function EventsProvider({ children }: { children: React.ReactNode }) {
     );
 }
 
-export function useEvents() {
+export function useEvents(): EventsContext {
     return useContext(EventsContext);
 }
 
-function eventsReducer(state: EventsResponse, action: EventsAction) {
-
-    console.log('going in', action);
+function eventsReducer(state: EventsState, action: EventsAction): EventsState {
 
     switch (action.type) {
-        // case SearchActionTypes.Added: {
-        //     const data = action.records.data || [];
-        //     const included = action.records.included || [];
+        case EventActionTypes.AddedToWishlist: {
+            const wishlistData = action.wishlistData || [];
 
-        //     return {
-        //         data: [...state.data, ...data],
-        //         included: [...state.included, ...included],
-        //         meta: action.records.meta,
-        //         searchText: action.searchText
-        //     };
-        // }
-        case SearchActionTypes.New: {
+            return {
+                ...state,
+                wishlist: [...state.wishlist, wishlistData],
+            };
+        }
+        case EventActionTypes.New: {
             return {
                 ...state,
                 data: action.data,

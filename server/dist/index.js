@@ -28,9 +28,11 @@ app.get('/', (req, res) => {
 app.get('/events', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(req.query);
     try {
+        const { keyword } = req.query;
+        // const { data } = await axios.get('https://jsonplaceholder.typicode.com/photos', {
         const { data } = yield axios_1.default.get('https://app.ticketmaster.com/discovery/v2/events.json', {
             responseType: 'stream',
-            params: Object.assign({ apikey: process.env.API_KEY, size: pageSize }, req.query)
+            params: Object.assign(Object.assign(Object.assign({}, (req.query)), { apikey: process.env.API_KEY, size: pageSize }), (keyword && { keyword }))
         });
         data.pipe(res);
     }

@@ -1,18 +1,13 @@
 import Form from 'react-bootstrap/Form';
 
-function Search() {
-  return (
-    <Form>
-      <Form.Group className='mb-3' controlId='formGroupEmail'>
-        <Form.Label>Email address</Form.Label>
-        <Form.Control type='email' placeholder='Enter email' />
-      </Form.Group>
-      <Form.Group className='mb-3' controlId='formGroupPassword'>
-        <Form.Label>Password</Form.Label>
-        <Form.Control type='password' placeholder='Password' />
-      </Form.Group>
-    </Form>
-  );
+type Props = {
+	handleSearch: (event: React.KeyboardEvent) => void;
+}
+
+function Search({ handleSearch }: Props): React.JSX.Element {
+	return (
+		<Form.Control onKeyDown={(e: React.KeyboardEvent) => handleSearch(e)} size='lg' type='text' placeholder='Search for events' />
+	);
 }
 
 export default Search;

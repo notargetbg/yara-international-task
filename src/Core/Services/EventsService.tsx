@@ -1,23 +1,17 @@
 import { AxiosResponse } from 'axios';
 import { EventsAPI } from './EventsAPI';
-import { EventsResponse, EventDetailsResponse, SearchParams } from '../Types/Types';
+import { EventsResponse, SearchParams, EventData } from '../Types/Types';
 
 const resourceName = 'events';
-const classificationName = 'Music';
-const defaultCity = 'Munich';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function searchEvents(searchParams: SearchParams): Promise<EventsResponse | any> {
-
-    console.log(searchParams);
-
     try {
-        // events request
         const events: AxiosResponse<EventsResponse> = await EventsAPI.get(resourceName, {
             params: {
-                keywords: 'something',
-                city: defaultCity,
-                classificationName: classificationName
+                city: searchParams.city,
+                keyword: searchParams.searchText,
+                classificationName: searchParams.classificationName
             }
         });
 
@@ -28,10 +22,10 @@ export async function searchEvents(searchParams: SearchParams): Promise<EventsRe
         return error;
     }
 }
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function getEventDetails(id: string): Promise<EventDetailsResponse | any> {
+export async function getEventDetails(id: string): Promise<EventData | any> {
     try {
-        // event details request
         const event: AxiosResponse<EventsResponse> = await EventsAPI.get(`${resourceName}/${id}`);
 
         return event.data;

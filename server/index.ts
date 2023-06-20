@@ -21,12 +21,15 @@ app.get('/events', async (req, res) => {
 	console.log(req.query);
 
 	try {
+		const { keyword } = req.query;
+		// const { data } = await axios.get('https://jsonplaceholder.typicode.com/photos', {
 		const { data } = await axios.get('https://app.ticketmaster.com/discovery/v2/events.json', {
 			responseType: 'stream',
 			params: {
+				...(req.query),
 				apikey: process.env.API_KEY,
 				size: pageSize,
-				...req.query
+				...(keyword && { keyword })
 			}
 		});
 

@@ -9,13 +9,13 @@ type ReactFragment = ReactNodeArray;
 type ReactNode = ReactChild | ReactFragment | ReactPortal | boolean | null | undefined;
 
 type Props = {
-  children: ReactNode
+    children: ReactNode;
 }
 
-const MainLayout = ({ children, ...rest }: Props ) => {
+const MainLayout = ({ children, ...rest }: Props): React.JSX.Element => {
 
     console.log(rest);
-    
+
     return (
         <>
             <MainNav />

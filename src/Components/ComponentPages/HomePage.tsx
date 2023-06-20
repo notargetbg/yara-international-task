@@ -1,88 +1,91 @@
 import { useEffect, useState } from 'react';
-import logo from '../../Assets/logo.svg';
+import { Col, Container, Row } from 'react-bootstrap';
 import EventList from '../Shared/Events/EventList';
 import EventModal from '../Shared/Events/EventModal';
-import { Params, SearchActionTypes } from '../../Core/Types/Types';
+import { EventActionTypes, WishlistData } from '../../Core/Types/Types';
 import { getEventDetails, searchEvents } from '../../Core/Services/EventsService';
 import { useEvents } from '../../Core/Contexts/EventsContext';
+import Search from '../Shared/Search';
 import './HomePage.scss';
 
-// const setEvents = (events: EventsState) => async ({ searchText }: SearchParams) => {
-// if search term is the same as previous do not make the request
-// if (events.searchText === searchText && searchText !== '') {
-// 	return;
-// }
-
-// call the rentals api
-// const eventsData: EventsResponse = await searchEvents({
-// 	[Params.keyword]: searchText,
-// });
-
-// console.log(eventsData);
-
-// save to context
-// events.dispatch?.({
-// 	type: SearchActionTypes.New,
-// 	eventsData,
-// 	searchText
-// });
-// };
+// const defaultClassificationName = 'Music';
+// const defaultCity = 'Munich';
 
 function HomePage() {
-	// {
-	// 	isModalShown: false,
-	// 	eventId: null
-	// }
 	const [modalData, setModalData] = useState(null);
+	// const [isLoading, setLoading] = useState(false);
 	const events = useEvents();
 
-	// const defaultMessage = 'Please, type your search and press "Enter"';
-
 	useEffect(() => {
-		const fetchEvents = async () => {
-			const eventsData = await searchEvents({
-				[Params.SearchText]: '',
-			});
+		// const fetchEvents = async (): Promise<void> => {
+		// 	// setLoading(true);
 
-			console.log('from effect', events);
+		// 	const eventsData = await searchEvents({
+		// 		city: defaultCity,
+		// 		classificationName: defaultClassificationName,
+		// 		searchText: '',
+		// 	});
 
-			events.dispatch?.({
-				type: SearchActionTypes.New,
-				data: eventsData._embedded.events
-			});
-		};
+		// 	events.dispatch?.({
+		// 		searchText: '',
+		// 		type: EventActionTypes.New,
+		// 		data: eventsData._embedded?.events
+		// 	});
+		// };
 
-		fetchEvents()
-			// make sure to catch any error
-			.catch(console.error);
+		// fetchEvents()
+		// 	// make sure to catch any error
+		// 	.catch(console.error)
+		// 	.finally(() => {
+		// 		// setLoading(false);
+		// 	});
 
 	}, []);
 
-	const showEventDetails = async (id: string) => {
+	const showEventDetails = async (id: string): Promise<void> => {
 		const modalData = await getEventDetails(id);
 		setModalData(modalData);
 	};
 
-	console.log('from component', events);
+	const handleSearchEvent = async (e: React.KeyboardEvent): Promise<void> => {
+		const { key, target } = e;
+
+		if (key === 'Enter' && (target as HTMLInputElement).value.length) {
+			// setLoading(true);
+			const eventsData = await searchEvents({
+				searchText: (target as HTMLInputElement).value,
+			}).finally(() => {
+				// setLoading(false);
+			});
+
+			// dispatch new events
+			events.dispatch?.({
+				searchText: (target as HTMLInputElement).value,
+				type: EventActionTypes.New,
+				data: eventsData._embedded?.events
+			});
+		}
+	};
+
+	const handleAddToWishlist = (wishlistData: WishlistData) => {
+		events.dispatch?.({
+			type: EventActionTypes.AddedToWishlist,
+			wishlistData
+		});
+	};
 
 	return (
 		<div className='homepage'>
 			<header className='homepage-header'>
-				<img src={logo} className='homepage-logo' alt='logo' />
-				{/* <p>
-						Edit <code>src/App.js</code> and save to reload.
-				</p>
-				<a
-						className="homepage-link"
-						href="https://reactjs.org"
-						target="_blank"
-						rel="noopener noreferrer"
-				>
-						Learn React
-				</a> */}
-				{/* <Search handleSearch={setEvents(events)} /> */}
-				<EventList onShowModal={(id) => showEventDetails(id)} />
-				<EventModal modalData={modalData} onHide={() => setModalData(null)} />
+				<Container className='mt-5'>
+					<Row>
+						<Col md={{ span: 6, offset: 3 }}>
+							<Search handleSearch={(e: React.KeyboardEvent) => handleSearchEvent(e)} />
+						</Col>
+					</Row>
+				</Container>
+				<EventList isLoading={false} onShowModal={(id) => showEventDetails(id)} />
+				<EventModal modalData={modalData} addToWishlist={(wishlistData) => handleAddToWishlist(wishlistData)} onHide={() => setModalData(null)} />
 			</header>
 		</div>
 	);
