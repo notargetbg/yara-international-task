@@ -96,7 +96,7 @@ export default function EventModal(props: Props): React.JSX.Element | null {
 									<>
 										<option>-</option>
 										{tickets.map(ticketsCount => (
-											<option value={ticketsCount}>{ticketsCount}</option>
+											<option key={`tickets-count-${ticketsCount}`} value={ticketsCount}>{ticketsCount}</option>
 										))}
 									</>
 								</Form.Select>

@@ -3,7 +3,7 @@ import { Container, Row, Col, Form, Button, Image } from 'react-bootstrap';
 
 const generateId = (): string => 'id' + Math.random().toString(16).slice(2);
 
-function AddNewEventPage() {
+function AddNewEventPage(): React.JSX.Element {
     const [validated, setValidated] = useState(false);
     const [image, setImage] = useState('');
 
@@ -26,15 +26,15 @@ function AddNewEventPage() {
         const date = data.get('date');
         const image = data.get('image');
 
+
         if (form.checkValidity() === false) {
-            // e.preventDefault();
             e.stopPropagation();
         }
 
         setValidated(true);
 
         // ensure we don't do anything past this point if some data is missing
-        if (!name || !date || !location || !image) {
+        if (!name || !date || !location || !image || (image as File).size === 0) {
             return;
         }
 
@@ -42,7 +42,7 @@ function AddNewEventPage() {
         reader.onloadend = function () {
             const base64image = reader.result;
 
-            // save form to LS
+            // save form to localStorage
             const newEvent = {
                 name,
                 location,
@@ -50,7 +50,6 @@ function AddNewEventPage() {
                 image: base64image,
             };
 
-            // add some id
             localStorage.setItem(generateId(), JSON.stringify(newEvent));
 
             // clear form and reset validations

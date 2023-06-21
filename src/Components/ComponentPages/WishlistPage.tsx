@@ -5,7 +5,7 @@ import html2pdf from 'html2pdf.js';
 import './WishlistPage.scss';
 import { EventActionTypes } from '../../Core/Types/Types';
 
-function WishlistPage() {
+function WishlistPage(): React.JSX.Element {
     const events = useEvents();
     const { wishlistData } = events;
     const exportOptions = {

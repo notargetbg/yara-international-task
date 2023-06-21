@@ -3,7 +3,7 @@ import { Container, Row, Col, Button } from 'react-bootstrap';
 import { MyEventData } from '../../Core/Types/Types';
 import EventImage from '../Shared/Events/EventImage';
 
-function MyEventsPage() {
+function MyEventsPage(): React.JSX.Element {
     const [hasRemoved, setHasRemoved] = useState(false);
     const localStorageEvents = { ...localStorage };
 
@@ -43,7 +43,7 @@ function MyEventsPage() {
                                 <small>{eventData.date}</small>
                             </p>
                             <Button size='sm' variant='danger' className='view-details' onClick={removeEvent(eventData.id)}>
-                                {'Remove event'}
+                                Remove event
                             </Button>
                         </Col>
                     ))}

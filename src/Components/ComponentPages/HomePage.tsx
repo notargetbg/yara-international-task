@@ -11,7 +11,7 @@ import './HomePage.scss';
 const defaultClassificationName = 'Music';
 const defaultCity = 'Munich';
 
-function HomePage() {
+function HomePage(): React.JSX.Element {
 	const [modalData, setModalData] = useState(null);
 	const [isLoading, setLoading] = useState(false);
 	const events = useEvents();

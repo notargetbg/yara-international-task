@@ -5,7 +5,7 @@ type Props = {
 	image?: string | null
 }
 
-export default function EventImage({ image }: Props) {
+export default function EventImage({ image }: Props): React.JSX.Element {
 
 	const eventImage = image || placeholderImg;
 
