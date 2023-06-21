@@ -24,6 +24,8 @@ type ModalData = {
 }
 
 const PRICE_RANGE_NAME = 'standard';
+const MAX_TICKETS_COUNT = 10;
+const tickets = Array.from({ length: MAX_TICKETS_COUNT }, (ticket, i) => i + 1);
 
 export default function EventModal(props: Props): React.JSX.Element | null {
 	const [ticketsCount, setTicketsCount] = useState(0);
@@ -44,8 +46,6 @@ export default function EventModal(props: Props): React.JSX.Element | null {
 			venueName,
 			ticketsCount
 		};
-
-		// if id is present in wishlist do nothing
 
 		addToWishlist(wishlistData);
 		closeModal();
@@ -87,12 +87,19 @@ export default function EventModal(props: Props): React.JSX.Element | null {
 				)}
 				{priceRange && (
 					<Form.Group as={Row} controlId='numberOfTickets' key={priceRange.type}>
-						<Form.Label column sm='9' className='price-label'>
+						<Form.Label column sm='8' className='price-label'>
 							<span className='fw-bold'>{priceRange.type}: </span>{priceRange.max} {priceRange.currency}
 						</Form.Label>
-						<Col sm='3'>
+						<Col sm='4'>
 							{priceRange.type.toLowerCase() && (
-								<Form.Control min={0} max={10} type='number' onChange={handleSetTicketsCount} />
+								<Form.Select required onChange={handleSetTicketsCount}>
+									<>
+										<option>-</option>
+										{tickets.map(ticketsCount => (
+											<option value={ticketsCount}>{ticketsCount}</option>
+										))}
+									</>
+								</Form.Select>
 							)}
 						</Col>
 					</Form.Group>

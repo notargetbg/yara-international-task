@@ -13,12 +13,12 @@ const defaultCity = 'Munich';
 
 function HomePage() {
 	const [modalData, setModalData] = useState(null);
-	// const [isLoading, setLoading] = useState(false);
+	const [isLoading, setLoading] = useState(false);
 	const events = useEvents();
 
 	useEffect(() => {
 		const fetchEvents = async (): Promise<void> => {
-			// setLoading(true);
+			setLoading(true);
 
 			const eventsData = await searchEvents({
 				city: defaultCity,
@@ -35,10 +35,8 @@ function HomePage() {
 
 		fetchEvents()
 			// make sure to catch any error
-			.catch(console.error)
-			.finally(() => {
-				// setLoading(false);
-			});
+			.catch(console.error);
+		setLoading(false);
 
 	}, []);
 
@@ -51,12 +49,11 @@ function HomePage() {
 		const { key, target } = e;
 
 		if (key === 'Enter' && (target as HTMLInputElement).value.length) {
-			// setLoading(true);
+			setLoading(true);
 			const eventsData = await searchEvents({
 				searchText: (target as HTMLInputElement).value,
-			}).finally(() => {
-				// setLoading(false);
-			});
+			}).catch(console.error);
+			setLoading(false);
 
 			// dispatch new events
 			events.dispatch?.({
@@ -76,14 +73,14 @@ function HomePage() {
 
 	return (
 		<div className='page homepage'>
-			<Container className='mt-5'>
+			<Container>
 				<Row>
-					<Col md={{ span: 6, offset: 3 }}>
+					<Col className='mt-5' md={{ span: 6, offset: 3 }}>
 						<Search handleSearch={(e: React.KeyboardEvent) => handleSearchEvent(e)} />
 					</Col>
 				</Row>
 			</Container>
-			<EventList isLoading={false} onShowModal={(id) => showEventDetails(id)} />
+			<EventList isLoading={isLoading} onShowModal={(id) => showEventDetails(id)} />
 			<EventModal
 				modalData={modalData}
 				addToWishlist={(wishlistData) => handleAddToWishlist(wishlistData)}
