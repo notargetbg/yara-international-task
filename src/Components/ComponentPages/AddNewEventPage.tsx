@@ -4,6 +4,7 @@ import { Container, Row, Col, Form, Button, Image } from 'react-bootstrap';
 const generateId = (): string => 'id' + Math.random().toString(16).slice(2);
 
 function AddNewEventPage() {
+    const [validated, setValidated] = useState(false);
     const [image, setImage] = useState('');
 
     function handleChange(e: BaseSyntheticEvent): void {
@@ -18,15 +19,22 @@ function AddNewEventPage() {
     const createEvent = (e: BaseSyntheticEvent): void => {
         e.preventDefault();
 
+        const form = e.currentTarget;
         const data = new FormData(e.target);
         const name = data.get('name');
         const location = data.get('location');
         const date = data.get('date');
         const image = data.get('image');
 
-        if (!name || !date || !location || !image) {
-            // set validation errors here
+        if (form.checkValidity() === false) {
+            // e.preventDefault();
+            e.stopPropagation();
+        }
 
+        setValidated(true);
+
+        // ensure we don't do anything past this point if some data is missing
+        if (!name || !date || !location || !image) {
             return;
         }
 
@@ -45,8 +53,9 @@ function AddNewEventPage() {
             // add some id
             localStorage.setItem(generateId(), JSON.stringify(newEvent));
 
-            // clear form 
+            // clear form and reset validations
             e.target.reset();
+            setValidated(false);
             setImage('');
         };
         reader.readAsDataURL(image as Blob);
@@ -63,25 +72,37 @@ function AddNewEventPage() {
                 <Row>
                     <Col md={{ span: 6, offset: 3 }}>
                         {/* name, date, locatiom, picture */}
-                        <Form onSubmit={createEvent}>
+                        <Form noValidate validated={validated} onSubmit={createEvent}>
                             <Form.Group className='mb-3' controlId='name'>
                                 <Form.Label>Name</Form.Label>
-                                <Form.Control type='text' name='name' placeholder='Enter name' />
+                                <Form.Control required type='text' name='name' placeholder='Enter name' />
+                                <Form.Control.Feedback type='invalid'>
+                                    Please enter a name
+                                </Form.Control.Feedback>
                             </Form.Group>
 
                             <Form.Group className='mb-3' controlId='location'>
                                 <Form.Label>Location</Form.Label>
-                                <Form.Control type='text' name='location' placeholder='Enter location' />
+                                <Form.Control required type='text' name='location' placeholder='Enter location' />
+                                <Form.Control.Feedback type='invalid'>
+                                    Please enter a location
+                                </Form.Control.Feedback>
                             </Form.Group>
 
                             <Form.Group className='mb-3' controlId='date'>
                                 <Form.Label>Date</Form.Label>
-                                <Form.Control type='date' name='date' placeholder='Enter date' />
+                                <Form.Control required type='date' name='date' placeholder='Enter date' />
+                                <Form.Control.Feedback type='invalid'>
+                                    Please add a date
+                                </Form.Control.Feedback>
                             </Form.Group>
 
                             <Form.Group className='mb-3' controlId='image'>
                                 <Form.Label>Image</Form.Label>
-                                <Form.Control onChange={handleChange} name='image' type='file' placeholder='Upload image' />
+                                <Form.Control required onChange={handleChange} name='image' type='file' placeholder='Upload image' />
+                                <Form.Control.Feedback type='invalid'>
+                                    Please add an image
+                                </Form.Control.Feedback>
                             </Form.Group>
 
                             <Image fluid src={image} />

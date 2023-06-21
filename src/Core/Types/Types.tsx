@@ -8,6 +8,14 @@ export type EventData = {
 	venues: Venue[];
 }
 
+export type MyEventData = {
+	id: string;
+	name: string;
+	date: string;
+	location: string;
+	image: string;
+}
+
 export type WishlistData = {
 	id: string;
 	name: string;
