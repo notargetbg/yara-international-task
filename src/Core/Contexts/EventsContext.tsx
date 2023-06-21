@@ -9,9 +9,9 @@ export interface EventsContext {
 }
 
 type EventsAction =
-    { type: EventActionTypes.AddedToWishlist, wishlistData: WishlistData }
-    | { type: EventActionTypes.RemoveFromWishlist, id: string }
-    | { type: EventActionTypes.New, data: EventData[], searchText: string };
+    { type: EventActionTypes.AddedToWishlist; wishlistData: WishlistData }
+    | { type: EventActionTypes.RemoveFromWishlist; id: string }
+    | { type: EventActionTypes.New; data: EventData[]; searchText: string };
 
 const initialSearchText = {
     searchText: '',

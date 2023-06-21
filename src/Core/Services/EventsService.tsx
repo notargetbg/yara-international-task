@@ -14,7 +14,6 @@ export async function searchEvents(searchParams: SearchParams): Promise<EventsRe
                 classificationName: searchParams.classificationName
             }
         });
-
         return events.data;
     } catch (error) {
         console.log(error);

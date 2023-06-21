@@ -38,8 +38,27 @@ export type EventImage = {
 }
 
 export type EventsResponse = {
-	event?: JSON;
-	data: EventData[];
+	page: Page;
+	_embedded: {
+		events: EventData[];
+	};
+	links: {
+		first: Link;
+		last: Link;
+		next: Link;
+		self: Link;
+	}
+}
+
+type Page = {
+	number: number;
+	size: number;
+	totalElements: number;
+	totalPages: number;
+}
+
+type Link = {
+	href: string;
 }
 
 export type EventsState = {

@@ -12,10 +12,7 @@ type Props = {
     children: ReactNode;
 }
 
-const MainLayout = ({ children, ...rest }: Props): React.JSX.Element => {
-
-    console.log(rest);
-
+const MainLayout = ({ children }: Props): React.JSX.Element => {
     return (
         <>
             <MainNav />

@@ -4,7 +4,7 @@ import HomePage from '../../Components/ComponentPages/HomePage';
 import { MainNav } from '../../Components/Navigation/MainNav';
 import WishlistPage from '../../Components/ComponentPages/WishlistPage';
 
-export function Router() {
+export function Router(): React.JSX.Element {
 	return (
 		<>
 			<MainNav />

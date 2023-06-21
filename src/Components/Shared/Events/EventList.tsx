@@ -21,7 +21,7 @@ export default function EventList({ onShowModal, isLoading }: Props): React.JSX.
 
 			{!isLoading && (
 				<Container>
-					{events?.data?.length && (
+					{events?.data?.length > 0 && (
 						<h3 className='mt-3'>Upcoming events</h3>
 					)}
 					<br />

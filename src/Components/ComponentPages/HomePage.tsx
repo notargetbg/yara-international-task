@@ -8,8 +8,8 @@ import { useEvents } from '../../Core/Contexts/EventsContext';
 import Search from '../Shared/Search';
 import './HomePage.scss';
 
-// const defaultClassificationName = 'Music';
-// const defaultCity = 'Munich';
+const defaultClassificationName = 'Music';
+const defaultCity = 'Munich';
 
 function HomePage() {
 	const [modalData, setModalData] = useState(null);
@@ -17,28 +17,28 @@ function HomePage() {
 	const events = useEvents();
 
 	useEffect(() => {
-		// const fetchEvents = async (): Promise<void> => {
-		// 	// setLoading(true);
+		const fetchEvents = async (): Promise<void> => {
+			// setLoading(true);
 
-		// 	const eventsData = await searchEvents({
-		// 		city: defaultCity,
-		// 		classificationName: defaultClassificationName,
-		// 		searchText: '',
-		// 	});
+			const eventsData = await searchEvents({
+				city: defaultCity,
+				classificationName: defaultClassificationName,
+				searchText: '',
+			});
 
-		// 	events.dispatch?.({
-		// 		searchText: '',
-		// 		type: EventActionTypes.New,
-		// 		data: eventsData._embedded?.events
-		// 	});
-		// };
+			events.dispatch?.({
+				searchText: '',
+				type: EventActionTypes.New,
+				data: eventsData._embedded?.events
+			});
+		};
 
-		// fetchEvents()
-		// 	// make sure to catch any error
-		// 	.catch(console.error)
-		// 	.finally(() => {
-		// 		// setLoading(false);
-		// 	});
+		fetchEvents()
+			// make sure to catch any error
+			.catch(console.error)
+			.finally(() => {
+				// setLoading(false);
+			});
 
 	}, []);
 
@@ -67,7 +67,7 @@ function HomePage() {
 		}
 	};
 
-	const handleAddToWishlist = (wishlistData: WishlistData) => {
+	const handleAddToWishlist = (wishlistData: WishlistData): void => {
 		events.dispatch?.({
 			type: EventActionTypes.AddedToWishlist,
 			wishlistData

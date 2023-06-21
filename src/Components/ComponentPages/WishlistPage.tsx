@@ -16,12 +16,12 @@ function WishlistPage() {
         jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
     };
 
-    const exportToPDF = () => {
+    const exportToPDF = (): void => {
         const element = document.getElementById('content-to-export');
         html2pdf().from(element).set(exportOptions).save();
     };
 
-    const removeEvent = (id: string) => {
+    const removeEvent = (id: string): void => {
         events.dispatch?.({
             type: EventActionTypes.RemoveFromWishlist,
             id
@@ -55,12 +55,18 @@ function WishlistPage() {
                                 <Card.Text>
                                     Tickets purchased: {wishlistItem.ticketsCount}
                                 </Card.Text>
-                                <Button onClick={() => removeEvent(wishlistItem.id)} variant='danger' className='float-end'>
+                                <Button onClick={() => removeEvent(wishlistItem.id)} size='sm' variant='danger' className='float-end'>
                                     Remove
                                 </Button>
                             </Card.Body>
                         </Card>
                     ))}
+
+                    {!wishlistData?.length && (
+                        <div className='text-center mt-5'>
+                            <span className='align-middle'>Your saved events will appear here</span>
+                        </div>
+                    )}
                 </Row>
             </Container>
         </div>
