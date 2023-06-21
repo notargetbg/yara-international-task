@@ -52,3 +52,7 @@ Extra things to do if I had even more time for development are:
 - add a pagination or an infinite scroll
 - add caching
 - add unit tests
+
+Example screenshot of the application:
+![screenshot-localhost_3000-2023 06 21-16_18_56](https://github.com/notargetbg/yara-international-task/assets/10579650/63b79df4-6c40-4c06-a4a2-5d0dd84bcb52)
+
