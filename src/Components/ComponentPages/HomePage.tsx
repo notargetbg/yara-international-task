@@ -75,7 +75,7 @@ function HomePage() {
 	};
 
 	return (
-		<div className='homepage'>
+		<div className='page homepage'>
 			<Container className='mt-5'>
 				<Row>
 					<Col md={{ span: 6, offset: 3 }}>

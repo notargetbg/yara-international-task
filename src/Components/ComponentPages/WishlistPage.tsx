@@ -29,7 +29,7 @@ function WishlistPage() {
     };
 
     return (
-        <div className='wishlist'>
+        <div className='page wishlist'>
             <Container>
                 <Row>
                     <Col className='text-center' md={{ span: 6, offset: 3 }}>
